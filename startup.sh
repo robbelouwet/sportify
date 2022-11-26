@@ -1,2 +1,2 @@
 #!/bin/bash
-cd /sportify && git pull origin main
+cd /sportify && git pull origin main && npm run start

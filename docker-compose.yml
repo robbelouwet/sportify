@@ -2,7 +2,7 @@ version: "3"
 
 services:
   sportify:
-    image: "node:latest"
+    build: .
     ports:
       - "3470:3000"
-    command: ["/sportify/startup.sh"]
+    command: bash -c "cd /sportify && git pull origin main && npm run start"
