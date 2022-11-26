@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  sportify:
+    image: "node:latest"
+    ports:
+      - "3470:3000"
+    command: ["/sportify/startup.sh"]
