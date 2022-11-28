@@ -5,4 +5,4 @@ services:
     build: .
     ports:
       - "3470:3000"
-    command: bash -c "cd /sportify && git pull origin main && npm run start"
+    command: bash -c 'cd /sportify && GIT_SSH_COMMAND="ssh -i /id_rsa -F /dev/null" git pull origin main && npm run start'
