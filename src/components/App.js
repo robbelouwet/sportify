@@ -1,24 +1,27 @@
-import logo from '../logo.svg';
+import { BrowserRouter, Navigate, Route, Router, Routes } from 'react-router-dom';
+import Login from "./pages/Login"
+import ChangePreferences from "./pages/ChangePreferences"
+import Recommendations from "./pages/Recommendations"
+import Results from "./pages/Results"
+import SelectPreferences from "./pages/SelectPreferences"
 import '../style/App.css';
+import NavBar from './layout/NavBar'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 2
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/select-preferences" element={<SelectPreferences />} />
+          <Route path="/change-preferences" element={<ChangePreferences />} />
+          <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/results" element={<Results />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
