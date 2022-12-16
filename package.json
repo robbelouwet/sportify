@@ -8,7 +8,11 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "content-based-recommender": "^1.5.0",
+<<<<<<< HEAD
     "firebase-admin": "^11.4.0",
+=======
+    "firebase": "^9.15.0",
+>>>>>>> 6fb211713b0f72ffb12a2af190d5ed4e8c125823
     "mdb-react-ui-kit": "^5.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
