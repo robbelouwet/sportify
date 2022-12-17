@@ -1,26 +1,32 @@
-import {useEffect, useState} from 'react';
-const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+import Recommendation from "./Recommendation";
+import data from '../../data/sports'
+import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
-function Recommendation() {
-    const [sports, updateSports] = useState([]);
-
-    initializeApp();
-    const db = getFirestore();
+function Recommendations() {
+    const [sports, setSports] = useState([])
+    const {state} = useLocation();
+    const {preferences} = state;
 
     useEffect(() => {
-        const sport = 'Football'
-        fetch(`http://localhost:4000/recommendations/${sport}`)
+        fetch(`http://localhost:4000/recommendations/?sports=${preferences.join(',')}`)
             .then(response => response.json())
-            .then(data => updateSports(data))
-            .catch((error) => {
-                console.error(error)
-            });
+            .then(data => setSports(data));
+    }, [])
+
+    const sportItems = sports.map(s => {
+        const ref = data.find(e => e.id === s.sport).kuleuvenref
+        return <Recommendation key={s.sport} sport={s.sport} location={'GDN'} time={'18:00'} kuleuvenref={ref}/>
     })
 
-    const sportItems = sports.map(s => <li key={s.sport}>Sport: {s.sport}, Score: {s.score}</li>)
-
-    return (<ul>{sportItems}</ul>)
+    return (
+        <div className="container mt-3">
+            <div className="row">
+                <div className="col-md">{sportItems}</div>
+                <div className="col-md">GRAPHIC</div>
+            </div>
+        </div>
+    )
 }
 
-export default Recommendation
+export default Recommendations

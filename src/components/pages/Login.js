@@ -1,12 +1,22 @@
-import React, { useContext } from "react"
-import { useState } from 'react';
+import React, {useContext} from "react"
+import {useState} from 'react';
 import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { ErrorContext, InfoContext } from "../../contexts";
+import {useNavigate} from "react-router-dom";
+import {ErrorContext, InfoContext} from "../../contexts";
+import {doc, getDoc, getFirestore} from "firebase/firestore";
+import {app} from "../../index";
+
+async function fetchPreferences(email) {
+    const db = getFirestore(app);
+
+    // 1. Get Preferences from user
+    const docRef = doc(db, "liked_sports", email);
+    return getDoc(docRef);
+}
 
 
 export default function () {
@@ -15,7 +25,6 @@ export default function () {
     const navigate = useNavigate()
     const [email, updateEmail] = useState("")
     const [pwd, updatePwd] = useState("")
-
     const [valid, setValid] = useState("")
 
     const submit = async e => {
@@ -24,7 +33,12 @@ export default function () {
         try {
             await signInWithEmailAndPassword(getAuth(), email, pwd)
             printInfo("Success", "Logged in successfully!")
-            navigate("/select-preferences")
+            const data = await fetchPreferences(email);
+            if (data.exists() && data.data().sports !== null) {
+                navigate("/recommendations", {state: {preferences: data.data().sports}})
+            } else {
+                navigate("/select-preferences")
+            }
         } catch (error) {
             if (error.code === "auth/user-not-found") {
                 printError("User does not exist, creating new user...")
@@ -56,7 +70,10 @@ export default function () {
                             type="email"
                             className={`form-control mt-1 ${valid}`}
                             placeholder="Enter email"
-                            onChange={v => { updateEmail(v.target.value); validate(v.target.value) }}
+                            onChange={v => {
+                                updateEmail(v.target.value);
+                                validate(v.target.value)
+                            }}
                             value={email}
                         />
                     </div>
