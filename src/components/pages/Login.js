@@ -2,9 +2,10 @@ import React, { useContext, useEffect } from "react"
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { login, notify } from "../../utils";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
-export default function () {
+export default function (props) {
     const navigate = useNavigate()
     const [email, updateEmail] = useState("")
     const [pwd, updatePwd] = useState("")
@@ -14,7 +15,9 @@ export default function () {
     const submit = async e => {
         e.preventDefault()
 
-        await login(email, pwd, navigate)
+        let usr = await login(email, pwd, navigate)
+        console.log("setUser: ", props.setUser)
+        props.setUser(usr)
     }
 
     const validate = v => {

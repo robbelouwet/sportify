@@ -5,25 +5,21 @@ import {
     signInWithEmailAndPassword
 } from "firebase/auth";
 
-export const user = null
-
 export const login = async (email, pwd, navigate) => {
     try {
-        await signInWithEmailAndPassword(getAuth(), email, pwd)
-        //printInfo("Success", "Logged in successfully!")
+        const user = await signInWithEmailAndPassword(getAuth(), email, pwd)
         notify("success", "Success!", "You are successfully logged in!")
         navigate("/select-preferences")
+        return user
     } catch (error) {
         console.log("error.code: ", error.code)
         if (error.code === "auth/user-not-found") {
-            //printInfo("User doesn't exist!", "Creating new user...")
-            const idk = notify('info', "User doesn't exist!", "Creating new user...")
-            console.log("idk: ", idk)
             try {
-                await createUserWithEmailAndPassword(getAuth(), email, pwd);
+                const user = await createUserWithEmailAndPassword(getAuth(), email, pwd);
+                notify('info', "User doesn't exist!", "Creating new user...")
                 navigate("/select-preferences")
+                return user
             } catch (err2) {
-                //printError(err2.code)
                 notify("error", "Error", err2.code)
             }
         } else {

@@ -7,20 +7,18 @@ import Results from "./pages/Results"
 import SelectPreferences from "./pages/SelectPreferences"
 import '../style/App.css';
 import NavBar from './layout/NavBar'
-import Error from "./layout/Error"
-import Info from "./layout/Info";
-import { ErrorContext, InfoContext } from "../contexts";
 import { NotificationContainer } from "react-notifications";
 
 function App() {
-  return (
+  const [user, updateUser] = useState(null)
 
+  return (
     <BrowserRouter>
       <NotificationContainer />
-      <NavBar />
+      <NavBar user={user} />
       <Routes>
         <Route path='/' element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setUser={() => updateUser} />} />
         <Route path="/select-preferences" element={<SelectPreferences />} />
         <Route path="/change-preferences" element={<ChangePreferences />} />
         <Route path="/recommendations" element={<Recommendations />} />

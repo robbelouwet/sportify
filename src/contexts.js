@@ -1,3 +1,5 @@
 import React from "react"
-export const ErrorContext = React.createContext()
-export const InfoContext = React.createContext()
+
+// firebase user object
+//userContext: {user: {email, uid, accessToken, ...}}
+export const userContext = React.createContext(null)
