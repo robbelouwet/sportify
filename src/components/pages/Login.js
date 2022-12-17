@@ -41,7 +41,7 @@ export default function () {
             }
         } catch (error) {
             if (error.code === "auth/user-not-found") {
-                printError("User does not exist, creating new user...")
+                printInfo("User doesn't exist!", "Creating new user...")
                 try {
                     await createUserWithEmailAndPassword(getAuth(), email, pwd);
                     navigate("/select-preferences")
