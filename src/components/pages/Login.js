@@ -1,17 +1,10 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useState } from 'react';
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { ErrorContext, InfoContext } from "../../contexts";
+import { login, notify } from "../../utils";
 
 
 export default function () {
-    const printError = useContext(ErrorContext)
-    const printInfo = useContext(InfoContext)
     const navigate = useNavigate()
     const [email, updateEmail] = useState("")
     const [pwd, updatePwd] = useState("")
@@ -21,23 +14,7 @@ export default function () {
     const submit = async e => {
         e.preventDefault()
 
-        try {
-            await signInWithEmailAndPassword(getAuth(), email, pwd)
-            printInfo("Success", "Logged in successfully!")
-            navigate("/select-preferences")
-        } catch (error) {
-            if (error.code === "auth/user-not-found") {
-                printInfo("User doesn't exist!", "Creating new user...")
-                try {
-                    await createUserWithEmailAndPassword(getAuth(), email, pwd);
-                    navigate("/select-preferences")
-                } catch (err2) {
-                    printError(err2.code)
-                }
-            } else {
-                printError(error.code)
-            }
-        }
+        await login(email, pwd, navigate)
     }
 
     const validate = v => {
