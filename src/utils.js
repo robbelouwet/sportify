@@ -5,11 +5,11 @@ import {
     signInWithEmailAndPassword
 } from "firebase/auth";
 
-export const login = async (email, pwd, navigate) => {
+export const login = async (email, pwd, data, navigate) => {
     try {
         const user = await signInWithEmailAndPassword(getAuth(), email, pwd)
         notify("success", "Success!", "You are successfully logged in!")
-        navigate("/select-preferences")
+        navigate("/select-preferences", { state: { preferences: data.data().sports } })
         return user
     } catch (error) {
         console.log("error.code: ", error.code)
@@ -17,7 +17,7 @@ export const login = async (email, pwd, navigate) => {
             try {
                 const user = await createUserWithEmailAndPassword(getAuth(), email, pwd);
                 notify('info', "User doesn't exist!", "Creating new user...")
-                navigate("/select-preferences")
+                navigate("/select-preferences", { state: { preferences: data.data().sports } })
                 return user
             } catch (err2) {
                 notify("error", "Error", err2.code)

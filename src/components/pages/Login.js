@@ -3,20 +3,22 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { login, notify } from "../../utils";
 import { propTypes } from "react-bootstrap/esm/Image";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { app } from "../../index";
 
 
 export default function (props) {
     const navigate = useNavigate()
     const [email, updateEmail] = useState("")
     const [pwd, updatePwd] = useState("")
-
     const [valid, setValid] = useState("")
 
     const submit = async e => {
         e.preventDefault()
 
-        let usr = await login(email, pwd, navigate)
-        console.log("setUser: ", props.setUser)
+        const data = await fetchPreferences(email);
+
+        let usr = await login(email, pwd, data, navigate)
         props.setUser(usr)
     }
 
@@ -36,7 +38,10 @@ export default function (props) {
                             type="email"
                             className={`form-control mt-1 ${valid}`}
                             placeholder="Enter email"
-                            onChange={v => { updateEmail(v.target.value); validate(v.target.value) }}
+                            onChange={v => {
+                                updateEmail(v.target.value);
+                                validate(v.target.value)
+                            }}
                             value={email}
                         />
                     </div>
@@ -59,4 +64,12 @@ export default function (props) {
             </form>
         </div>
     )
+}
+
+async function fetchPreferences(email) {
+    const db = getFirestore(app);
+
+    // 1. Get Preferences from user
+    const docRef = doc(db, "liked_sports", email);
+    return getDoc(docRef);
 }

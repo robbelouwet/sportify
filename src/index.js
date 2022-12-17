@@ -17,6 +17,9 @@ export const app = initializeApp(firebaseConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    // TODO: be sure to remove this once in production!
+    //  what happens behind the scenes -> React Strictmode will render each component twice in dev mode (NOT production!)
+    //  in order to detect any problems with your code and warn you about them (which can be quite useful)
   <React.StrictMode>
     <App />
   </React.StrictMode>
