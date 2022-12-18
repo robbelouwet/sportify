@@ -8,23 +8,26 @@ import SelectPreferences from "./pages/SelectPreferences"
 import '../style/App.css';
 import NavBar from './layout/NavBar'
 import { NotificationContainer } from "react-notifications";
+import {UserContext} from "../contexts";
 
 function App() {
-  const [user, updateUser] = useState(null)
+  const [user, updateUser] = useState(null);
 
   return (
-    <BrowserRouter>
-      <NotificationContainer />
-      <NavBar user={user} />
-      <Routes>
-        <Route path='/' element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login setUser={() => updateUser} />} />
-        <Route path="/select-preferences" element={<SelectPreferences />} />
-        <Route path="/change-preferences" element={<ChangePreferences />} />
-        <Route path="/recommendations" element={<Recommendations />} />
-        <Route path="/results" element={<Results />} />
-      </Routes>
-    </BrowserRouter>
+      <UserContext.Provider value={user}>
+          <BrowserRouter>
+              <NotificationContainer />
+              <NavBar/>
+              <Routes>
+                  <Route path='/' element={<Navigate to="/login" />} />
+                  <Route path="/login" element={<Login setUser={updateUser} />} />
+                  <Route path="/select-preferences" element={<SelectPreferences />} />
+                  <Route path="/change-preferences" element={<ChangePreferences />} />
+                  <Route path="/recommendations" element={<Recommendations />} />
+                  <Route path="/results" element={<Results />} />
+              </Routes>
+          </BrowserRouter>
+      </UserContext.Provider>
   );
 }
 

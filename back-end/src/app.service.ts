@@ -12,12 +12,10 @@ export class AppService {
       minScore: 0.0,
       maxSimilarDocuments: 100,
     });
+    this.recommender.train(data);
   }
 
   getRecommendations(sports: string[]): Recommendation[] {
-    // TODO: this should be done at startup of the application!
-    this.recommender.train(data);
-
     let recommendedSports = [];
     sports.forEach((s) => {
       recommendedSports = recommendedSports.concat(

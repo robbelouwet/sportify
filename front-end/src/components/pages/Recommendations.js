@@ -21,6 +21,7 @@ function Recommendations() {
 
     return (
         <div className="container mt-3">
+            <h1 className="display-4 text-center">Recommendations</h1>
             <div className="row">
                 <div className="col-md">{sportItems}</div>
                 <div className="col-md">GRAPHIC</div>
