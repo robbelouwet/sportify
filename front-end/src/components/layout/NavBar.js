@@ -4,9 +4,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import {useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
+import {useContext} from "react";
+import {UserContext} from "../../contexts";
 
 function NavBar() {
     const navigate = useNavigate()
+    const user = useContext(UserContext)
 
     return (
         <Navbar bg="light" expand="lg">
@@ -15,7 +18,7 @@ function NavBar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="container-fluid">
-                        <Nav.Item className="ms-auto">
+                        <Nav.Item className={user != null ? 'ms-auto' : 'ms-auto invisible'}>
                             <Nav.Link onClick={() => navigate("/change-preferences")}>
                                 <div className="btn btn-dark rounded-circle btn-icon">
                                     <FontAwesomeIcon icon={faPencil}/>

@@ -36,20 +36,20 @@ export const login = async (email, pwd, data, navigate) => {
     }
 }
 
-export const notify = (type, title, body) => {
+export const notify = (type, title, body, time=2000) => {
     switch (type) {
         case 'info':
             console.log("Info...")
-            NotificationManager.info(body, title, 2000);
+            NotificationManager.info(body, title, time);
             break;
         case 'success':
-            NotificationManager.success(body, title, 2000);
+            NotificationManager.success(body, title, time);
             break;
         case 'warning':
-            NotificationManager.warning(body, title, 2000);
+            NotificationManager.warning(body, title, time);
             break;
         case 'error':
-            NotificationManager.error(body, title, 2000);
+            NotificationManager.error(body, title, time);
             break;
     }
 };
