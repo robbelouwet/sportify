@@ -9,12 +9,15 @@ import '../../style/App.css';
 import NavBar from './NavBar'
 import { NotificationContainer } from "react-notifications";
 import { UserContext } from "../../contexts";
-import { notify } from "../../utils";
+import { notify, back_end } from "../../utils/auth";
+import Spinner from 'react-bootstrap/Spinner';
+import { Container } from "react-bootstrap";
 
 
 const Component = () => {
     const navigate = useNavigate()
-    const [user, updateUser] = useState(null);
+    const [user, updateUser] = useState();
+    const [loaded, setLoaded] = useState(false)
 
     const setUser = (usr) => {
         updateUser(usr)
@@ -26,7 +29,7 @@ const Component = () => {
         if (usr !== null) {
             const parsedUsr = JSON.parse(usr)
             //console.log("net expiration time: ", (parsedUsr.user.stsTokenManager.expirationTime - Date.now()) * 2.777777e-7, " hours")
-            //console.log(parsedUsr)
+            //console.log("User: ", parsedUsr)
             if (parsedUsr.user.expirationTime < Date.now()) {
                 notify("warning", "Login expired, please log in.")
                 navigate("/login")
@@ -34,20 +37,32 @@ const Component = () => {
                 updateUser(parsedUsr)
             }
         }
+        fetch(`${back_end}/health-check`)
+            .then(data => data.json())
+            .then(_ => setLoaded(true))
     }, [])
 
     return (
         <UserContext.Provider value={user}>
+            {/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
             <NotificationContainer />
             <NavBar />
-            <Routes>
-                <Route path='/' element={<Navigate to="/login" />} />
-                <Route path="/login" element={<Login setUser={setUser} />} />
-                <Route path="/select-preferences" element={<SelectPreferences />} />
-                <Route path="/change-preferences" element={<ChangePreferences />} />
-                <Route path="/recommendations" element={<Recommendations />} />
-                <Route path="/results" element={<Results />} />
-            </Routes>
+            {user !== null && loaded ?
+                <Routes>
+                    <Route path='/' element={<Navigate to="/login" />} />
+                    <Route path="/login" element={<Login setUser={setUser} />} />
+                    <Route path="/select-preferences" element={<SelectPreferences />} />
+                    <Route path="/change-preferences" element={<ChangePreferences />} />
+                    <Route path="/recommendations" element={<Recommendations />} />
+                    <Route path="/results" element={<Results />} />
+                </Routes>
+                :
+                <Container className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </Container>
+            }
         </UserContext.Provider>
     )
 

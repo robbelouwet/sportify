@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from "react"
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { login, notify } from "../../utils";
-import { propTypes } from "react-bootstrap/esm/Image";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { app } from "../../index";
+import { login, notify } from "../../utils/auth";
+import { fetchPreferences } from "../../utils/firestore";
 
 
 export default function (props) {
@@ -66,10 +64,4 @@ export default function (props) {
     )
 }
 
-async function fetchPreferences(email) {
-    const db = getFirestore(app);
 
-    // 1. Get Preferences from user
-    const docRef = doc(db, "liked_sports", email);
-    return getDoc(docRef);
-}

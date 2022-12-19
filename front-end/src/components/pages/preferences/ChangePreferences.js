@@ -1,113 +1,71 @@
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faXmark, faCheck, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {Form, ListGroup} from 'react-bootstrap';
-import sports from '../../data/sports';
-import {useContext, useEffect, useState} from 'react';
-import {doc, getDoc, updateDoc, arrayUnion, arrayRemove, getFirestore} from 'firebase/firestore';
-import {app} from '../../index';
-import {UserContext} from '../../contexts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Form, ListGroup } from 'react-bootstrap';
+import sports from '../../../data/sports';
+import { useContext, useEffect, useState } from 'react';
+import { addPreferences, removePreference, fetchPreferences } from '../../../utils/firestore';
+import { UserContext } from '../../../contexts';
 
 function ChangePreferences() {
+    const [text, setText] = useState("")
     const [preferences, setPreferences] = useState([])
-    const [filteredSports, setFilteredSports] = useState([])
     const user = useContext(UserContext)
 
-    function addSport(sport) {
-        console.log(`I have been clicked ${sport}`)
-        addPreference(sport, user.user.email)
+    const addPreference = async (sport) => {
+        await addPreferences(sport, user.user.email)
+
+        const newPrefs = (await fetchPreferences(user.user.email)).data().sports
+        setPreferences(newPrefs)
+        console.log("preferences after adding one: ", newPrefs)
     }
 
-    function removeSport(sport) {
-        console.log(`I have been clicked ${sport}`)
-        removePreference(sport, user.user.email)
-    }
-
-    function searchSports(text) {
-        setFilteredSports(text !== '' ? sports
-            .map(s => s.id)
-            .filter(s => s.toUpperCase().includes(text.toUpperCase()))
-            .map(s => <ListGroup.Item key={s} onClick={() => addSport(s)}>{s}</ListGroup.Item>) : []
-        )
+    const removePreference = async (s) => {
+        // remove preference...
     }
 
     useEffect(() => {
         fetchPreferences(user.user.email)
             .then(data => {
                 const sports = data.exists() && data.data().sports !== undefined ? data.data().sports : []
-                setPreferences(
-                    sports.map(s =>
-                        <ListGroup.Item key={s}>
-                            {s}
-                            <button type="button" className="btn btn-dark" onClick={() => removeSport(s)}>
-                                <FontAwesomeIcon icon={faTrash}/>
-                            </button>
-                        </ListGroup.Item>)
-                )
-            });
-    })
+                setPreferences(sports)
+            })
+    }, [])
 
     return (
         <div className='container mt-3'>
             <h1 className='display-4 text-center'>Edit Preferences</h1>
-            {/* Buttons at top */}
-            <div>
-                <div className='btn btn-default btn-dark rounded-circle btn-icon'>
-                    <FontAwesomeIcon icon={faXmark}/>
-                </div>
-                <div className='btn btn-default btn-success rounded-circle btn-icon'>
-                    <FontAwesomeIcon icon={faCheck}/>
-                </div>
-            </div>
-            {/* Current Preferences */}
-            <div>
-                <ListGroup>
-                    {preferences}
-                </ListGroup>
-            </div>
-            {/* Search bar other sports */}
-            <h1 className='display-4 text-center'>Add new sport</h1>
+
             <Form className='d-flex'>
                 <Form.Control
                     type='search'
                     placeholder='Search'
                     className='me-2'
                     aria-label='Search'
-                    onChange={(e) => searchSports(e.target.value)}
+                    onChange={(e) => setText(e.target.value)}
                 />
             </Form>
             <ListGroup>
-                {filteredSports}
+                {sports
+                    .map(s => s.id)
+                    .filter(s => s.toUpperCase().includes(text.toUpperCase()))
+                    .sort((x, y) => {
+                        if (preferences.includes(x) && !preferences.includes(y)) return -1
+                        if (preferences.includes(y) && !preferences.includes(x)) return 1
+                        return 0
+                    })
+                    .map(s =>
+                        <ListGroup.Item key={s}
+                            onClick={() => preferences.includes(s) ? removePreference(s) : addPreference(s)}>
+                            <div>
+                                <FontAwesomeIcon
+                                    style={{ visibility: preferences.includes(s) ? '' : 'hidden', color: "green" }}
+                                    icon={faCheck} />
+                                {s}
+                            </div>
+                        </ListGroup.Item>)}
             </ListGroup>
         </div>
     )
-}
-
-async function fetchPreferences(email) {
-    const db = getFirestore(app);
-
-    // 1. Get Preferences from user
-    const docRef = doc(db, 'liked_sports', email);
-    return getDoc(docRef);
-}
-
-async function addPreference(sport, email) {
-    const db = getFirestore(app);
-
-    // 1. Get Preferences from user
-    const docRef = doc(db, 'liked_sports', email);
-    return updateDoc(docRef, {
-        sports: arrayUnion(sport)
-    });
-}
-
-async function removePreference(sport, email) {
-    const db = getFirestore(app);
-
-    // 1. Get Preferences from user
-    const docRef = doc(db, 'liked_sports', email);
-    return updateDoc(docRef, {
-        sports: arrayRemove(sport)
-    });
 }
 
 export default ChangePreferences

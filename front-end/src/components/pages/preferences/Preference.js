@@ -1,8 +1,8 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrophy} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
-export default function ({sport, isSelected}) {
+export default function ({ sport, isSelected }) {
     return (
         <div className="card">
             <div className="card-body">
@@ -12,7 +12,7 @@ export default function ({sport, isSelected}) {
                             {isSelected ?
                                 <div>{sport} <FontAwesomeIcon icon={faTrophy} />
                                 </div>
-                                 : sport}
+                                : sport}
                         </div>
                     </div>
                 </h5>
