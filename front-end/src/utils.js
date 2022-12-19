@@ -5,6 +5,8 @@ import {
     signInWithEmailAndPassword
 } from "firebase/auth";
 
+export const back_end = "https://sportify-hci.ew.r.appspot.com/"
+
 export const login = async (email, pwd, data, navigate) => {
     try {
         const user = await signInWithEmailAndPassword(getAuth(), email, pwd)
