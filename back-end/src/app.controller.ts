@@ -8,6 +8,7 @@ export class AppController {
 
   @Get('recommendations')
   getRecommendations(@Query('sports') sports: string): Recommendation[] {
+    console.log(sports)
     return this.appService.getRecommendations(sports.split(','));
   }
 

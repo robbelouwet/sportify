@@ -8,10 +8,12 @@ export default function ({sport, isSelected}) {
             <div className="card-body">
                 <h5 className="card-title">
                     <div className="row">
-                        <div className={isSelected ? 'col-2' : 'invisible'}>
-                            <FontAwesomeIcon icon={faTrophy}/>
+                        <div>
+                            {isSelected ?
+                                <div>{sport} <FontAwesomeIcon icon={faTrophy} />
+                                </div>
+                                 : sport}
                         </div>
-                        <div className='col-10'>{sport}</div>
                     </div>
                 </h5>
             </div>

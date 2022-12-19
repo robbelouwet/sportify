@@ -1,22 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import PreferenceChoice from "./PreferenceChoice";
+import SelectPreference from "./SelectPreference";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "../../../contexts";
-import { back_end } from "../../../utils";
+import { UserContext } from "../../contexts";
 
 function SelectPreferences() {
     const [sports, setSports] = useState([])
+    const user = useContext(UserContext)
 
     useEffect(() => {
-        fetch(`${back_end}/most-popular-sports`)
+        console.log(user)
+        fetch('http://localhost:4000/most-popular-sports')
             .then(response => response.json())
             .then(data => setSports(data));
     }, [])
 
     const sportItems = sports.map((v, i) =>
         i % 2 === 0 ?
-            <PreferenceChoice key={sports[i] + sports[++i]} sport1={sports[i]} sport2={sports[++i]} />
+            <SelectPreference key={sports[i] + sports[++i]} sport1={sports[i]} sport2={sports[++i]} />
             : undefined
     )
 
