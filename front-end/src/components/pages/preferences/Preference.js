@@ -1,22 +1,18 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrophy } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+
+import {Card, Button} from "react-bootstrap"
 
 export default function ({ sport, isSelected }) {
-    return (
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">
-                    <div className="row">
-                        <div>
-                            {isSelected ?
-                                <div>{sport} <FontAwesomeIcon icon={faTrophy} />
-                                </div>
-                                : sport}
-                        </div>
-                    </div>
-                </h5>
-            </div>
-        </div>
-    )
+	return (
+		<Card style={{ width: '18rem' }}>
+			<Card.Img variant="top" src="holder.js/100px180" />
+			<Card.Body>
+				<Card.Title>Sport</Card.Title>
+				<Card.Text>
+					Some quick example text to build on the card title and make up the
+					bulk of the card's content.
+				</Card.Text>
+				<Button variant="primary">Go somewhere</Button>
+			</Card.Body>
+		</Card>
+	)
 }

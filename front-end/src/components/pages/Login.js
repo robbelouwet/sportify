@@ -17,11 +17,12 @@ export default function (props) {
         const data = await fetchPreferences(email);
 
         let usr = await login(email, pwd, data, navigate)
+        if (usr === null) return
         props.setUser(usr)
     }
 
     const validate = v => {
-        const isValid = /^(r[0-9]{7}@kuleuven.be)|([a-z]*.[a-z]*@student.kuleuven.be)$/.test(v)
+        const isValid = /^(r[0-9]{7}@kuleuven.be)|([a-z]+.[a-z]+@student.kuleuven.be)$/.test(v)
         setValid(isValid ? "is-valid" : "is-invalid")
     }
 
@@ -54,7 +55,7 @@ export default function (props) {
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
-                        <button type="submit" onClick={submit} disabled={() => valid === "is-valid"} className="btn btn-primary">
+                        <button type="submit" onClick={submit} disabled={valid !== "is-valid"} className="btn btn-primary">
                             Submit
                         </button>
                     </div>

@@ -1,71 +1,107 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Form, ListGroup } from 'react-bootstrap';
-import sports from '../../../data/sports';
-import { useContext, useEffect, useState } from 'react';
-import { addPreferences, removePreference, fetchPreferences } from '../../../utils/firestore';
-import { UserContext } from '../../../contexts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { Form, ListGroup } from 'react-bootstrap'
+import sports from '../../../data/sports'
+import { useContext, useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
+import {
+	addPreferences,
+	removePreference,
+	fetchPreferences,
+} from '../../../utils/firestore'
+import { UserContext } from '../../../contexts'
+import { useNavigate } from 'react-router-dom'
 
 function ChangePreferences() {
-    const [text, setText] = useState("")
-    const [preferences, setPreferences] = useState([])
-    const user = useContext(UserContext)
+	const navigate = useNavigate()
+	const [text, setText] = useState('')
+	const [preferences, setPreferences] = useState([])
+	const user = useContext(UserContext)
+	const [show, setShow] = useState(false)
 
-    const addPreference = async (sport) => {
-        await addPreferences(sport, user.user.email)
+	const addPreference = async (sport) => {
+		await addPreferences(sport, user.user.email)
 
-        const newPrefs = (await fetchPreferences(user.user.email)).data().sports
-        setPreferences(newPrefs)
-        console.log("preferences after adding one: ", newPrefs)
-    }
+		const newPrefs = (await fetchPreferences(user.user.email)).data().sports
+		setPreferences(newPrefs)
+		console.log('preferences after adding one: ', newPrefs)
+	}
 
-    const removePreference = async (s) => {
-        // remove preference...
-    }
+	const rmPreference = async (s) => {
+		console.log('before:', preferences)
+		await removePreference(s, user.user.email)
 
-    useEffect(() => {
-        fetchPreferences(user.user.email)
-            .then(data => {
-                const sports = data.exists() && data.data().sports !== undefined ? data.data().sports : []
-                setPreferences(sports)
-            })
-    }, [])
+		const newPrefs = (await fetchPreferences(user.user.email)).data().sports
+		setPreferences(newPrefs)
+		console.log('Deleted a preference: ', newPrefs)
+	}
 
-    return (
-        <div className='container mt-3'>
-            <h1 className='display-4 text-center'>Edit Preferences</h1>
+	useEffect(() => {
+		console.log("rendering")
+		fetchPreferences(user.user.email).then((data) => {
+			const sports =
+				data.exists() && data.data().sports !== undefined
+					? data.data().sports
+					: []
+			setPreferences(sports)
+		})
+	}, [])
 
-            <Form className='d-flex'>
-                <Form.Control
-                    type='search'
-                    placeholder='Search'
-                    className='me-2'
-                    aria-label='Search'
-                    onChange={(e) => setText(e.target.value)}
-                />
-            </Form>
-            <ListGroup>
-                {sports
-                    .map(s => s.id)
-                    .filter(s => s.toUpperCase().includes(text.toUpperCase()))
-                    .sort((x, y) => {
-                        if (preferences.includes(x) && !preferences.includes(y)) return -1
-                        if (preferences.includes(y) && !preferences.includes(x)) return 1
-                        return 0
-                    })
-                    .map(s =>
-                        <ListGroup.Item key={s}
-                            onClick={() => preferences.includes(s) ? removePreference(s) : addPreference(s)}>
-                            <div>
-                                <FontAwesomeIcon
-                                    style={{ visibility: preferences.includes(s) ? '' : 'hidden', color: "green" }}
-                                    icon={faCheck} />
-                                {s}
-                            </div>
-                        </ListGroup.Item>)}
-            </ListGroup>
-        </div>
-    )
+	return (
+		<div className="container mt-3">
+			<h1 className="display-4 text-center">Edit Preferences</h1>
+			<Form className="d-flex" onSubmit={e => { e.preventDefault(); navigate("/recommendations") }}>
+				<Form.Control
+					id="search-input"
+					value={text}
+					onFocus={e => { console.log("focus event: ", e); setShow(true) }}
+					type="search"
+					placeholder="Search"
+					className="me-2"
+					aria-label="Search"
+					onChange={(e) => setText(e.target.value)}
+				/>
+				<Button
+					onClick={() => navigate('/recommendations')}
+					variant="outline-success"
+				>
+					<FontAwesomeIcon icon={faArrowRight} />
+				</Button>
+			</Form>
+			{show ?
+				<ListGroup>
+					{sports
+						.map((s) => s.id)
+						.filter((s) => s.toUpperCase().includes(text.toUpperCase()))
+						.sort((x, y) => {
+							if (preferences.includes(x) && !preferences.includes(y)) return -1
+							if (preferences.includes(y) && !preferences.includes(x)) return 1
+							return 0
+						})
+						.map((s) => (
+							<ListGroup.Item
+								key={s}
+								onClick={(_) => {
+									preferences.includes(s) ? rmPreference(s) : addPreference(s)
+									setText("")
+									document.getElementById("search-input").focus()
+								}}
+							>
+								<FontAwesomeIcon
+									style={{
+										visibility: preferences.includes(s) ? 'visible' : 'hidden',
+										color: 'green',
+									}}
+									icon={faCheck}
+								/>
+
+								{s}
+							</ListGroup.Item>
+						))}
+				</ListGroup> : <></>}
+
+		</div>
+	)
 }
 
 export default ChangePreferences

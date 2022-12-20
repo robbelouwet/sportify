@@ -9,7 +9,7 @@ export const back_end = "https://sportify-hci.ew.r.appspot.com/"
 //export const back_end = "http://0.0.0.0:4000"
 
 export const login = async (email, pwd, data, navigate) => {
-    let user = {}
+    let user = null
     try {
         user = await signInWithEmailAndPassword(getAuth(), email, pwd)
         notify("success", "Success!", "You are successfully logged in!")
@@ -33,7 +33,7 @@ export const login = async (email, pwd, data, navigate) => {
                 notify("error", "Error", err2.code)
             }
         } else {
-            notify("error", "Error", error)
+            notify("error", "Error", error.code)
         }
     }
 

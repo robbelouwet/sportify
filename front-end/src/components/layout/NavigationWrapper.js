@@ -25,16 +25,13 @@ const Component = () => {
     }
 
     useEffect(() => {
-        const usr = localStorage.getItem("sportify-user")
-        if (usr !== null) {
-            const parsedUsr = JSON.parse(usr)
-            //console.log("net expiration time: ", (parsedUsr.user.stsTokenManager.expirationTime - Date.now()) * 2.777777e-7, " hours")
-            //console.log("User: ", parsedUsr)
-            if (parsedUsr.user.expirationTime < Date.now()) {
+        const usr = JSON.parse(localStorage.getItem("sportify-user"))
+        if (usr !== null && Object.entries(usr).length !== 0) {
+            if (usr.user.expirationTime < Date.now()) {
                 notify("warning", "Login expired, please log in.")
                 navigate("/login")
             } else {
-                updateUser(parsedUsr)
+                updateUser(usr)
             }
         }
         fetch(`${back_end}/health-check`)
