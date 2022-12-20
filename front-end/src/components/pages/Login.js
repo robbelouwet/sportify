@@ -35,7 +35,7 @@ export default function (props) {
                         <input
                             type="email"
                             className={`form-control mt-1 ${valid}`}
-                            placeholder="Enter email"
+                            placeholder="KU Leuven email"
                             onChange={v => {
                                 updateEmail(v.target.value);
                                 validate(v.target.value)
@@ -54,7 +54,7 @@ export default function (props) {
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
-                        <button type="submit" onClick={submit} className="btn btn-primary">
+                        <button type="submit" onClick={submit} disabled={() => valid === "is-valid"} className="btn btn-primary">
                             Submit
                         </button>
                     </div>
