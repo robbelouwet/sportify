@@ -20,13 +20,17 @@ function Recommendations() {
 		const preferences = (await fetchPreferences(user.user.email)).data().sports
 		console.log("preferences:", preferences)
 
-		const cTags = commonTags(preferences)
-		setTopTags(Object.entries(cTags).sort((a, b) => a[1] < b[1]).slice(0, 10))
-		console.log("Common tags:", topTags)
-
-		fetch(`${back_end}/recommendations/?sports=${preferences.join(',')}`)
+		await fetch(`${back_end}/recommendations/?sports=${preferences.join(',')}`)
 			.then(resp => resp.json())
-			.then(data => setRecommendations(data.sort((a, b) => a.score < b.score)))
+			.then(data => {
+				console.log("data: ", data)
+				const sortedRecommendations = data.sort((a, b) => a.score < b.score)
+				setRecommendations(sortedRecommendations)
+
+				const cTags = commonTags(sortedRecommendations.map(r => r.sport))
+				setTopTags(Object.entries(cTags).sort((a, b) => a[1] < b[1]).slice(0, 10))
+				console.log("Common tags:", topTags)
+			})
 
 	}, [])
 
@@ -46,13 +50,15 @@ function Recommendations() {
 					</Accordion>
 				</Col>
 				<Col>
-					<Row>						<Col>
-						<h3>What you seem to like</h3>
-						{topTags.length !== 0 && <BarChart tags={topTags} />}
-					</Col>
+					<Row>
+						<Col>
+							<h3>Words that describe your interests</h3>
+							{topTags.length !== 0 && <BarChart tags={topTags} />}
+						</Col>
 
 
 					</Row>
+					<hr />
 					<Row className="pt-5">
 						<Col>
 							<h3>Your preferences</h3>
