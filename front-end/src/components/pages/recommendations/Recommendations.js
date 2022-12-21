@@ -8,21 +8,26 @@ import Accordion from 'react-bootstrap/Accordion';
 import { Container, Row, Col } from "react-bootstrap";
 import PreferencesOverview from "../preferences/PreferencesOverview";
 import BarChart from "./BarChart"
+import { commonTags } from "../../../utils/sportsUtils"
 
 function Recommendations() {
 	const user = useContext(UserContext)
+	const [topTags, setTopTags] = useState([])
 	const [recommendations, setRecommendations] = useState([])
 
-	useEffect(() => {
-		(async () => {
-			console.log("fetching...")
-			const preferences = (await fetchPreferences(user.user.email)).data().sports
-			console.log("preferences:", preferences)
+	useEffect(() => async () => {
+		console.log("fetching...")
+		const preferences = (await fetchPreferences(user.user.email)).data().sports
+		console.log("preferences:", preferences)
 
-			fetch(`${back_end}/recommendations/?sports=${preferences.join(',')}`)
-				.then(resp => resp.json())
-				.then(data => setRecommendations(data.sort((a, b) => a.score < b.score)))
-		})()
+		const cTags = commonTags(preferences)
+		setTopTags(Object.entries(cTags).sort((a, b) => a[1] < b[1]).slice(0, 10))
+		console.log("Common tags:", topTags)
+
+		fetch(`${back_end}/recommendations/?sports=${preferences.join(',')}`)
+			.then(resp => resp.json())
+			.then(data => setRecommendations(data.sort((a, b) => a.score < b.score)))
+
 	}, [])
 
 	return (
@@ -33,9 +38,9 @@ function Recommendations() {
 					<Accordion defaultActiveKey={0}>
 						{recommendations
 							.map((r, i) => {
-								console.log("Recommendation: ", r)
+								//console.log("Recommendation: ", r)
 								const ref = data.find(e => e.id === r.sport).kuleuvenref;
-								console.log("i: ", i)
+								//console.log("i: ", i)
 								return < Recommendation key={i} eventKey={i} sport={r.sport} score={r.score} location={"Sporthal"} time={"Friday 19h"} kuleuvenref={ref} />
 							})}
 					</Accordion>
@@ -43,7 +48,7 @@ function Recommendations() {
 				<Col>
 					<Row>						<Col>
 						<h3>What you seem to like</h3>
-						<BarChart recommendations={dummyRecommendations} />
+						{topTags.length !== 0 && <BarChart tags={topTags} />}
 					</Col>
 
 

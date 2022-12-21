@@ -36,26 +36,15 @@ const options = {
 };
 
 
-/*
-Recommendations should look like this:
-[
-	{
-		"recommendation": "Soccer",
-		"tags": ["ball sport", "team sport", ...]
-	},
-	...
-]
-*/
-function App({ recommendations }) {
+function App({ tags }) {
 	const [data, setData] = useState(null)
 
 	useEffect(() => {
-		const sortedRecommendations = recommendations.sort((a, b) => a.tags.length < b.tags.length)
 		setData({
-			labels: sortedRecommendations.map(r => r.recommendation),
+			labels: tags.map(e => e[0]),
 			datasets: [
 				{
-					data: sortedRecommendations.map(r => r.tags.length),
+					data: tags.map(e => e[1]),
 					borderColor: 'rgb(255, 99, 132)',
 					backgroundColor: 'rgba(255, 99, 132, 0.5)',
 				}
