@@ -11,11 +11,11 @@ const PreferencesOverview = () => {
 	useEffect(() => async () => {
 		const prefs = (await fetchPreferences(user.user.email)).data().sports
 		setPreferences(prefs)
-	})
+	}, [])
 	return (preferences != null &&
 		<div className="pt-4">
 			<ListGroup>
-				{preferences.map(p => <ListGroup.Item>{p}</ListGroup.Item>)}
+				{preferences.map(p => <ListGroup.Item key={p}>{p}</ListGroup.Item>)}
 			</ListGroup>
 		</div>
 	)

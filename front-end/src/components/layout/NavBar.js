@@ -1,35 +1,36 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPencil} from "@fortawesome/free-solid-svg-icons";
-import {useContext} from "react";
-import {UserContext} from "../../contexts";
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from "react";
+import { UserContext } from "../../contexts";
+import { signOut } from "../../utils/auth"
 
-function NavBar() {
-    const navigate = useNavigate()
-    const user = useContext(UserContext)
+function NavBar({ updateUser }) {
+	const navigate = useNavigate()
+	const user = useContext(UserContext)
 
-    return (
-        <Navbar bg="light" expand="lg">
-            <Container>
-                <Navbar.Brand>Sportify</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="container-fluid">
-                        <Nav.Item className={user != null ? 'ms-auto' : 'ms-auto invisible'}>
-                            <Nav.Link onClick={() => navigate("/change-preferences")}>
-                                <div className="btn btn-dark rounded-circle btn-icon">
-                                    <FontAwesomeIcon icon={faPencil}/>
-                                </div>
-                            </Nav.Link>
-                        </Nav.Item>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    );
+	useEffect(() => {
+		////// HIER: als ge wilt uitloggen wordt de login component al 
+		// gerenderd vóór de setUser(null) in signOut is uitgevoerd, wat er voor zorgt dat die nog snel die navigate("/") gaat doen
+		console.log("Navbar render, state user:", user)
+		if (user === null || user === undefined) navigate("/")
+	}, [user])
+
+	return (
+		<Navbar bg="light" expand="lg">
+			<Container>
+				<Navbar.Brand>Sportify</Navbar.Brand>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav className="me-auto">
+						<Nav.Link onClick={() => navigate("/change-preferences")}>Preferences</Nav.Link>
+						<Nav.Link className={(user === null || user === undefined ? 'd-none' : '')} onClick={() => { signOut(updateUser) }}>Sign out</Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
+	);
 }
 
 export default NavBar;

@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from "react"
 import { useState } from 'react';
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts";
 import { login, notify } from "../../utils/auth";
 import { fetchPreferences } from "../../utils/firestore";
 
 
 export default function (props) {
+	const user = useContext(UserContext)
 	const navigate = useNavigate()
 	const [email, updateEmail] = useState("")
 	const [pwd, updatePwd] = useState("")
@@ -18,7 +20,9 @@ export default function (props) {
 		const data = await fetchPreferences(email);
 
 		let usr = await login(email, pwd, data, navigate)
-		if (usr === null) return
+		console.log("Login user:", usr)
+		if (usr === null || usr === undefined) return
+		localStorage.setItem("sportify-user", JSON.stringify(usr))
 		props.setUser(usr)
 	}
 
@@ -26,6 +30,14 @@ export default function (props) {
 		const isValid = /^(r[0-9]{7}@kuleuven.be)|([a-z]+.[a-z]+@student.kuleuven.be)$/.test(v)
 		setValid(isValid ? "is-valid" : "is-invalid")
 	}
+
+	useEffect(() => {
+		console.log("state user @ login render: ", user)
+		if (user !== undefined && user !== null) {
+			console.log("nav at login!")
+			navigate("/recommendations")
+		}
+	}, [])
 
 	return (
 		<div className="Auth-form-container">

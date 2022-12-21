@@ -49,7 +49,7 @@ function ChangePreferences() {
 	return (
 		<Container>
 			<h1 className="display-4 text-center">Edit Preferences</h1>
-			<Form className="d-flex" onSubmit={e => { e.preventDefault(); navigate("/recommendations") }}>
+			<Form className="d-flex" onSubmit={e => { e.preventDefault(); console.log("nav at change prefs!"); navigate("/recommendations") }}>
 				<Form.Control
 					id="search-input"
 					value={text}

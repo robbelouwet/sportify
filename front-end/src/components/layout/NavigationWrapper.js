@@ -28,12 +28,14 @@ const Component = () => {
 		const usr = JSON.parse(localStorage.getItem("sportify-user"))
 		if (usr !== null && Object.entries(usr).length !== 0) {
 			if (usr.user.expirationTime < Date.now()) {
+				console.log("User login expired")
 				notify("warning", "Login expired, please log in.")
 				navigate("/login")
 			} else {
+				console.log("retrieved stored user:", usr)
 				updateUser(usr)
 			}
-		}
+		} else console.log("didn't find stored user!")
 		fetch(`${back_end}/health-check`)
 			.then(data => data.json())
 			.then(_ => setLoaded(true))
@@ -43,15 +45,19 @@ const Component = () => {
 		<UserContext.Provider value={user}>
 			{/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
 			<NotificationContainer />
-			<NavBar />
-			{user !== null && loaded ?
+			<NavBar updateUser={updateUser} />
+			{loaded ?
 				<Routes>
 					<Route path='/' element={<Navigate to="/login" />} />
 					<Route path="/login" element={<Login setUser={setUser} />} />
-					<Route path="/select-preferences" element={<SelectPreferences />} />
-					<Route path="/change-preferences" element={<ChangePreferences />} />
-					<Route path="/recommendations" element={<Recommendations />} />
-					<Route path="/results" element={<Results />} />
+					{user !== null &&
+						<>
+							<Route path="/select-preferences" element={<SelectPreferences />} />
+							<Route path="/change-preferences" element={<ChangePreferences />} />
+							<Route path="/recommendations" element={<Recommendations />} />
+							<Route path="/results" element={<Results />} />
+						</>
+					}
 				</Routes>
 				:
 				<Container className="text-center">
