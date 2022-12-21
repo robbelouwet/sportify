@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Sportify",
+  "name": "KU Leuven's Sport's recommender",
   "icons": [
     {
       "src": "favicon.ico",
