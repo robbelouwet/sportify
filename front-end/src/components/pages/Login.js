@@ -33,7 +33,10 @@ export default function (props) {
 				<div className="Auth-form-content">
 					<h3 className="Auth-form-title">Sign In</h3>
 					<div className="form-group mt-3">
-						<label>Email address</label>
+						<label>Email address
+							<br />
+							<div className="text-muted" style={{ fontSize: "13px" }}>If you don't have an account, one will be created.</div>
+						</label>
 						<input
 							type="email"
 							className={`form-control mt-1 ${valid}`}
