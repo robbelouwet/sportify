@@ -1,2 +1,2 @@
 #!/bin/bash
-cd front-end && npm run start
+cd /sportify/front-end && npm run start
