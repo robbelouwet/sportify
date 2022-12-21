@@ -11,57 +11,58 @@ import { NotificationContainer } from "react-notifications";
 import { UserContext } from "../../contexts";
 import { notify, back_end } from "../../utils/auth";
 import Spinner from 'react-bootstrap/Spinner';
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 
 const Component = () => {
-    const navigate = useNavigate()
-    const [user, updateUser] = useState();
-    const [loaded, setLoaded] = useState(false)
+	const navigate = useNavigate()
+	const [user, updateUser] = useState();
+	const [loaded, setLoaded] = useState(false)
 
-    const setUser = (usr) => {
-        updateUser(usr)
-        localStorage.setItem("sportify-user", JSON.stringify(usr))
-    }
+	const setUser = (usr) => {
+		updateUser(usr)
+		localStorage.setItem("sportify-user", JSON.stringify(usr))
+	}
 
-    useEffect(() => {
-        const usr = JSON.parse(localStorage.getItem("sportify-user"))
-        if (usr !== null && Object.entries(usr).length !== 0) {
-            if (usr.user.expirationTime < Date.now()) {
-                notify("warning", "Login expired, please log in.")
-                navigate("/login")
-            } else {
-                updateUser(usr)
-            }
-        }
-        fetch(`${back_end}/health-check`)
-            .then(data => data.json())
-            .then(_ => setLoaded(true))
-    }, [])
+	useEffect(() => {
+		const usr = JSON.parse(localStorage.getItem("sportify-user"))
+		if (usr !== null && Object.entries(usr).length !== 0) {
+			if (usr.user.expirationTime < Date.now()) {
+				notify("warning", "Login expired, please log in.")
+				navigate("/login")
+			} else {
+				updateUser(usr)
+			}
+		}
+		fetch(`${back_end}/health-check`)
+			.then(data => data.json())
+			.then(_ => setLoaded(true))
+	}, [])
 
-    return (
-        <UserContext.Provider value={user}>
-            {/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
-            <NotificationContainer />
-            <NavBar />
-            {user !== null && loaded ?
-                <Routes>
-                    <Route path='/' element={<Navigate to="/login" />} />
-                    <Route path="/login" element={<Login setUser={setUser} />} />
-                    <Route path="/select-preferences" element={<SelectPreferences />} />
-                    <Route path="/change-preferences" element={<ChangePreferences />} />
-                    <Route path="/recommendations" element={<Recommendations />} />
-                    <Route path="/results" element={<Results />} />
-                </Routes>
-                :
-                <Container className="text-center">
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </Container>
-            }
-        </UserContext.Provider>
-    )
+	return (
+		<UserContext.Provider value={user}>
+			{/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
+			<NotificationContainer />
+			<NavBar />
+			{user !== null && loaded ?
+				<Routes>
+					<Route path='/' element={<Navigate to="/login" />} />
+					<Route path="/login" element={<Login setUser={setUser} />} />
+					<Route path="/select-preferences" element={<SelectPreferences />} />
+					<Route path="/change-preferences" element={<ChangePreferences />} />
+					<Route path="/recommendations" element={<Recommendations />} />
+					<Route path="/results" element={<Results />} />
+				</Routes>
+				:
+				<Container className="text-center">
+					<Spinner animation="border" role="status">
+						<span className="visually-hidden">Loading...</span>
+					</Spinner>
+				</Container>
+
+			}
+		</UserContext.Provider>
+	)
 
 }
 

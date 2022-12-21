@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { Form, ListGroup } from 'react-bootstrap'
+import { Form, ListGroup, Container } from 'react-bootstrap'
 import sports from '../../../data/sports'
 import { useContext, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
@@ -37,7 +37,6 @@ function ChangePreferences() {
 	}
 
 	useEffect(() => {
-		console.log("rendering")
 		fetchPreferences(user.user.email).then((data) => {
 			const sports =
 				data.exists() && data.data().sports !== undefined
@@ -48,7 +47,7 @@ function ChangePreferences() {
 	}, [])
 
 	return (
-		<div className="container mt-3">
+		<Container>
 			<h1 className="display-4 text-center">Edit Preferences</h1>
 			<Form className="d-flex" onSubmit={e => { e.preventDefault(); navigate("/recommendations") }}>
 				<Form.Control
@@ -99,8 +98,7 @@ function ChangePreferences() {
 							</ListGroup.Item>
 						))}
 				</ListGroup> : <></>}
-
-		</div>
+		</Container>
 	)
 }
 
