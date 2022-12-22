@@ -12,10 +12,6 @@ export class AppController {
 		return this.appService.getRecommendations(sports.split(','));
 	}
 
-	@Get("common-tags")
-	getCommonTags(@Query('sports') sports: string): string[] {
-	}
-
 	@Get('most-popular-sports')
 	getMostPopularSports(): string[] {
 		return [
