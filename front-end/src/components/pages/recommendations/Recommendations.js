@@ -9,6 +9,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import PreferencesOverview from "../preferences/PreferencesOverview";
 import BarChart from "./BarChart"
 import { commonTags } from "../../../utils/sportsUtils"
+import SportsCoach from "./SportsCoach";
 
 function Recommendations() {
 	const user = useContext(UserContext)
@@ -50,21 +51,7 @@ function Recommendations() {
 					</Accordion>
 				</Col>
 				<Col>
-					<Row>
-						<Col>
-							<h3>Words that describe your interests</h3>
-							{topTags.length !== 0 && <BarChart tags={topTags} />}
-						</Col>
-
-
-					</Row>
-					<hr />
-					<Row className="pt-5">
-						<Col>
-							<h3>Your preferences</h3>
-							<PreferencesOverview />
-						</Col>
-					</Row>
+					{false ? <StatisticsUI topTags={topTags} /> : <SportsCoachUI topTags={topTags} />}
 				</Col>
 			</Row>
 		</Container>
@@ -72,27 +59,40 @@ function Recommendations() {
 	)
 }
 
+const StatisticsUI = ({ topTags }) =>
+	<>
+		<Row>
+			<Col>
+				<h3>Words that describe your interests</h3>
+				{topTags.length !== 0 && <BarChart tags={topTags} />}
+			</Col>
+
+
+		</Row>
+		<hr />
+		<Row className="pt-5">
+			<Col>
+				<h3>Your preferences</h3>
+				<PreferencesOverview />
+			</Col>
+		</Row>
+	</>
+
+const SportsCoachUI = ({ topTags }) => {
+	const [text, setText] = useState("")
+
+	useEffect(() => {
+		setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+			.split(" "))
+	}, [])
+
+	return (
+		<>
+			<SportsCoach topTags={topTags} text={text} setText={() => setText} />
+		</>)
+
+}
+
+
+
 export default Recommendations
-
-
-const dummyRecommendations = [
-	{
-		"recommendation": "Soccer1",
-		"tags": ["ball sport", "team sport"]
-	},
-	{
-		"recommendation": "Soccer2",
-		"tags": ["ball sport"]
-	}, {
-		"recommendation": "Soccer3",
-		"tags": ["ball sport"]
-	}, {
-		"recommendation": "Soccer4",
-		"tags": ["ball sport", "team sport"]
-	}, {
-		"recommendation": "Swimming",
-		"tags": ["water", "team sport", "splashing", "pushing kids of the water slide"]
-	}, {
-		"recommendation": "Soccer6",
-		"tags": ["ball sport", "team sport"]
-	}]

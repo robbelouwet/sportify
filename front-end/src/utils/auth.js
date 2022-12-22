@@ -52,7 +52,6 @@ export const signOut = async (setuserCallback) => {
 export const notify = (type, title, body, time = 2000) => {
 	switch (type) {
 		case 'info':
-			console.log("Info...")
 			NotificationManager.info(body, title, time);
 			break;
 		case 'success':

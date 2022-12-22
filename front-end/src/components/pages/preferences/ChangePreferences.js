@@ -49,11 +49,15 @@ function ChangePreferences() {
 	return (
 		<Container>
 			<h1 className="display-4 text-center">Edit Preferences</h1>
-			<Form className="d-flex" onSubmit={e => { e.preventDefault(); console.log("nav at change prefs!"); navigate("/recommendations") }}>
+			<Form className="d-flex" onSubmit={e => {
+				e.preventDefault(); console.log("nav at change prefs!"); navigate("/recommendations")
+			}}>
 				<Form.Control
 					id="search-input"
 					value={text}
-					onFocus={e => { console.log("focus event: ", e); setShow(true) }}
+					onFocus={e => {
+						console.log("focus event: ", e); setShow(true)
+					}}
 					type="search"
 					placeholder="Search"
 					className="me-2"
@@ -67,38 +71,40 @@ function ChangePreferences() {
 					<FontAwesomeIcon icon={faArrowRight} />
 				</Button>
 			</Form>
-			{show ?
-				<ListGroup>
-					{sports
-						.map((s) => s.id)
-						.filter((s) => s.toUpperCase().includes(text.toUpperCase()))
-						.sort((x, y) => {
-							if (preferences.includes(x) && !preferences.includes(y)) return -1
-							if (preferences.includes(y) && !preferences.includes(x)) return 1
-							return 0
-						})
-						.map((s) => (
-							<ListGroup.Item
-								key={s}
-								onClick={(_) => {
-									preferences.includes(s) ? rmPreference(s) : addPreference(s)
-									setText("")
-									document.getElementById("search-input").focus()
-								}}
-							>
-								<FontAwesomeIcon
-									style={{
-										visibility: preferences.includes(s) ? 'visible' : 'hidden',
-										color: 'green',
+			{
+				show ?
+					<ListGroup>
+						{sports
+							.map((s) => s.id)
+							.filter((s) => s.toUpperCase().includes(text.toUpperCase()))
+							.sort((x, y) => {
+								if (preferences.includes(x) && !preferences.includes(y)) return -1
+								if (preferences.includes(y) && !preferences.includes(x)) return 1
+								return 0
+							})
+							.map((s) => (
+								<ListGroup.Item
+									key={s}
+									onClick={(_) => {
+										preferences.includes(s) ? rmPreference(s) : addPreference(s)
+										setText("")
+										document.getElementById("search-input").focus()
 									}}
-									icon={faCheck}
-								/>
+								>
+									<FontAwesomeIcon
+										style={{
+											visibility: preferences.includes(s) ? 'visible' : 'hidden',
+											color: 'green',
+										}}
+										icon={faCheck}
+									/>
 
-								{s}
-							</ListGroup.Item>
-						))}
-				</ListGroup> : <></>}
-		</Container>
+									{s}
+								</ListGroup.Item>
+							))}
+					</ListGroup> : <></>
+			}
+		</Container >
 	)
 }
 

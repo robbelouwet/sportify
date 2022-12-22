@@ -74,5 +74,42 @@ label {
   color: rgb(34, 34, 34);
 }
 
+p.speech {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  height: 250px;
+  background-color: #fff;
+  border: 8px solid #666;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: 2px 2px 4px #888;
+  -moz-box-shadow: 2px 2px 4px #888;
+  box-shadow: 2px 2px 4px #888;
+}
+
+p.speech:before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 70%;
+  top: 234px;
+  border: 25px solid;
+  border-color: #666 transparent transparent #666;
+}
+
+p.speech:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: calc(70% + 8px);
+  top: 234px;
+  border: 15px solid;
+  border-color: #fff transparent transparent #fff;
+}
+
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import '../../node_modules/react-notifications/lib/notifications.css';

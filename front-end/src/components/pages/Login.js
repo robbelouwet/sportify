@@ -20,7 +20,7 @@ export default function (props) {
 		const data = await fetchPreferences(email);
 
 		let usr = await login(email, pwd, data, navigate)
-		console.log("Login user:", usr)
+		//console.log("Login user:", usr)
 		if (usr === null || usr === undefined) return
 		localStorage.setItem("sportify-user", JSON.stringify(usr))
 		props.setUser(usr)
@@ -32,7 +32,7 @@ export default function (props) {
 	}
 
 	useEffect(() => {
-		console.log("state user @ login render: ", user)
+		//console.log("state user @ login render: ", user)
 		if (user !== undefined && user !== null) {
 			console.log("nav at login!")
 			navigate("/recommendations")

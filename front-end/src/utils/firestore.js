@@ -12,8 +12,8 @@ export const setPreferences = async (email, _sports) => {
     await getDoc(sportsRef)
         .then((docSnapshot) => {
             console.log("exists:", docSnapshot.exists)
-            if (!docSnapshot.exists()) console.log("Document didn't exist!")
-            else console.log("Document already existed, overwriting liked_sports with:", _sports)
+            //if (!docSnapshot.exists()) console.log("Document didn't exist!")
+            //else console.log("Document already existed, overwriting liked_sports with:", _sports)
             const coll = collection(db, "liked_sports")
             setDoc(doc(coll, email), { sports: _sports })
         });

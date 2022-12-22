@@ -5,7 +5,7 @@ import ChangePreferences from "../pages/preferences/ChangePreferences"
 import Recommendations from "../pages/recommendations/Recommendations"
 import Results from "../pages/Results"
 import SelectPreferences from "../pages/preferences/SelectPreferences"
-import '../../style/App.css';
+import '../../style/App.scss';
 import NavBar from './NavBar'
 import { NotificationContainer } from "react-notifications";
 import { UserContext } from "../../contexts";
