@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts";
 import { login, notify } from "../../utils/auth";
 import { fetchPreferences } from "../../utils/firestore";
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 
 export default function (props) {

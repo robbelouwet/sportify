@@ -3,7 +3,7 @@ import data from '../../../data/sports'
 import { useEffect, useState, useContext } from "react";
 import { back_end } from "../../../utils/auth";
 import { fetchPreferences } from "../../../utils/firestore";
-import { UserContext } from "../../../contexts";
+import { UIContext, UserContext } from "../../../contexts";
 import Accordion from 'react-bootstrap/Accordion';
 import { Container, Row, Col } from "react-bootstrap";
 import PreferencesOverview from "../preferences/PreferencesOverview";
@@ -12,11 +12,13 @@ import { commonTags } from "../../../utils/sportsUtils"
 import SportsCoach from "./SportsCoach";
 
 function Recommendations() {
+	const uiContext = useContext(UIContext)
 	const user = useContext(UserContext)
 	const [topTags, setTopTags] = useState([])
 	const [recommendations, setRecommendations] = useState([])
 
 	useEffect(() => async () => {
+		console.log("UIContext: ", uiContext)
 		console.log("fetching...")
 		const preferences = (await fetchPreferences(user.user.email)).data().sports
 		console.log("preferences:", preferences)
@@ -51,7 +53,7 @@ function Recommendations() {
 					</Accordion>
 				</Col>
 				<Col>
-					{false ? <StatisticsUI topTags={topTags} /> : <SportsCoachUI topTags={topTags} />}
+					{uiContext === "statistics" ? <StatisticsUI topTags={topTags} /> : <SportsCoachUI topTags={topTags} />}
 				</Col>
 			</Row>
 		</Container>
