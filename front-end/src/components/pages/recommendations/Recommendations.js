@@ -108,21 +108,18 @@ const SportsCoachUI = ({ recommendedSport, preferences, topTags }) => {
         I would recommend ${recommendedSport.sport}. 
         `
 
-        if ((recommendedSport.score * 100) < 50) msg += `Although I'm only ${Math.round(recommendedSport.score * 100)}% sure!`
+        if ((recommendedSport.score * 100) < 50) msg += `Although I'm only ${Math.round(recommendedSport.score)}% sure!`
         setText(msg
             .split(" ")
         )
     }, [recommendedSport, preferences, topTags])
 
     useEffect(() => {
+        console.log("Setting text:", text)
         text !== "" && text !== null && setText(text.split(" "))
     }, [])
 
-    return (
-        <>
-            <SportsCoach topTags={topTags} text={text} setText={() => setText} />
-        </>)
-
+    return <SportsCoach topTags={topTags} text={text} setText={() => setText} />
 }
 
 function getTopTags(preferences, selectedSports) {

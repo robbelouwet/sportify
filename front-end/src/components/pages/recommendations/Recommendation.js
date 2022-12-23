@@ -16,7 +16,7 @@ function Recommendation({ eventKey, sport, score, kuleuvenref }) {
 			<Accordion.Header><h5 style={{ color: "gray" }}>{sport}</h5></Accordion.Header>
 			<Accordion.Body>
 
-				<h6>{Math.round(score * 100)}% match</h6>
+				<h6>{Math.round(score)}% match</h6>
 				<ul>
 					{events.map(([time, loc]) => <li>{time} {loc}</li>)}
 				</ul>
