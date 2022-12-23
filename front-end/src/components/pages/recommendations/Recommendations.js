@@ -14,7 +14,6 @@ import SportsCoach from "./SportsCoach";
 function Recommendations() {
     const uiContext = useContext(UIContext)
     const user = useContext(UserContext)
-    const [eventKey, setEventKey] = useState(0)
     const [preferences, setPreferences] = useState([])
     const [topTags, setTopTags] = useState([])
     const [recommendations, setRecommendations] = useState([])
@@ -46,7 +45,7 @@ function Recommendations() {
             <Row className={!surveyVisible ? 'pt-4' : 'd-none'}>
                 <Col>
                     <h3>Recommendations</h3>
-                    <Accordion defaultActiveKey={eventKey} onSelect={(e) => {
+                    <Accordion defaultActiveKey={0} onSelect={(e) => {
                         const toptags = getTopTags(preferences, [recommendations[e].sport])
                         setTopTags(toptags)
                     }}>
