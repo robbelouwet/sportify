@@ -18,8 +18,9 @@ export class AppService {
 	getRecommendations(sports: string[]): Recommendation[] {
 		let recommendedSports = [];
 		sports.forEach((s) => {
+			const st = s.split(' ').sort().join(' ');
 			recommendedSports = recommendedSports.concat(
-				this.recommender.getSimilarDocuments(s, 0, 10),
+				this.recommender.getSimilarDocuments(st, 0, 10),
 			);
 		});
 
@@ -36,7 +37,10 @@ export class AppService {
 			.filter((v, i, a) => a.findIndex((v2) => v2.id === v.id) === i)
 			.slice(0, 5)
 			.map((doc) => {
-				return new Recommendation(doc.id, doc.score)
+				return new Recommendation(
+					doc.id,
+					(Math.PI - Math.acos(doc.score)) * 100 / Math.PI
+				)
 			});
 	}
 }

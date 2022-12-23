@@ -4,6 +4,7 @@ export default [
     content: "cardio strength train flexibility high-intensity low intensity endurance indoor outdoor weight mat individual pair small group large group mens womens child friendly adult seniors beginner intermediate advance specific genres type music use workouts certify instructors experience instructors class videos online course short workouts long workouts specialize shoe equipment require workouts lively fun atmosphere dance game include workoutsfitness teamsport cardio strength flexibility intense endurance indoor outdoor workout",
     kuleuvenref: "https://www.kuleuven.be/sport/eng/sportsoffer/sports/fitness-group-training/aerobic"
   },
+  {id: "A", content: "appel peer banaan kiwi ananas mango"},{id:"B", content: "appel peer banaan kiwi ananas mango"},
   {
     id: "Antwerp  0 Miles",
     content: "miles antwerp belgium road pavement individual team child friendly adult seniors beginner intermediate advance mens womens high-intensity endurance run shoe hydration pack chip time manual time flat hillycardio endurance hiit individual",
