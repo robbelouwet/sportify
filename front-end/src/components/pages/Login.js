@@ -61,7 +61,10 @@ export default function (props) {
 						/>
 					</div>
 					<div className="form-group mt-3">
-						<label>Password</label>
+						<label>Password
+							<br />
+							<div className="text-muted" style={{ fontSize: "13px" }}>This does not have to be your real KU Leuven password.</div>
+						</label>
 						<input
 							type="password"
 							className="form-control mt-1"
