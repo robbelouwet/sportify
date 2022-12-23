@@ -23,6 +23,8 @@ function NavBar({ updateUser }) {
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="me-auto">
 						<Nav.Link onClick={() => navigate("/change-preferences")}>Preferences</Nav.Link>
+					</Nav>
+					<Nav className="ml-auto">
 						<Nav.Link className={(user === null || user === undefined ? 'd-none' : '')} onClick={() => { signOut(updateUser) }}>Sign out</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
