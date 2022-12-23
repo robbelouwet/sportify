@@ -1,17 +1,26 @@
 const fs = require("fs");
 const { parse } = require("csv-parse");
+const { exit } = require("process");
 
 let events = {}
 
 fs.createReadStream("./time_locations.csv")
     .pipe(parse({ delimiter: ";" }))
-    .on("data", (row) => {
+    .on("data", ([sport, time, loc]) => {
+        if (sport === '') return
+        if (!Object.keys(events).includes(sport)) { events[sport] = [] }
 
-        if (row[0] === '') return
-        if (!Object.keys(events).includes(row[0])) { events[row[0]] = [] }
+        const [_time, _loc] = filter(time, loc)
+        //events[sport].push([time, _loc])
 
-        const [time, loc] = filter(row[1], row[2])
-        events[row[0]].push([time, loc])
+        for (let i = 0; i < events[sport].length; i++) {
+            const event = events[sport][i]
+            if (event.join(" ") === [_time, _loc].join(" ")) {
+                console.log("Duplicate! existing: ", event.join(" "), " to be added: ", [_time, _loc].join(" "))
+                return
+            }
+        }
+        events[sport].push([_time, _loc])
     })
     .on("error", (error) => {
         console.error(error)
