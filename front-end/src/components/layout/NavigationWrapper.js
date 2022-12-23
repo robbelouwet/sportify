@@ -29,8 +29,9 @@ const Component = () => {
 	useEffect(() => {
 		// only set at the very first render
 		if (ui === null) {
+			if (queryParams.get("ui") === null) { console.log("setting ui default"); setUI("statistics") }
 			//console.log("first render, setting ui:", queryParams.get("ui"))
-			setUI(queryParams.get("ui"))
+			else setUI(queryParams.get("ui"))
 		}
 
 		console.log("query params NavWrapper:", queryParams.get("ui"))

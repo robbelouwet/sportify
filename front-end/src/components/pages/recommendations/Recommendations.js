@@ -48,7 +48,7 @@ function Recommendations() {
 								//console.log("Recommendation: ", r)
 								const ref = data.find(e => e.id === r.sport).kuleuvenref;
 								//console.log("i: ", i)
-								return < Recommendation key={i} eventKey={i} sport={r.sport} score={r.score} location={"Sporthal"} time={"Friday 19h"} kuleuvenref={ref} />
+								return < Recommendation key={i} eventKey={i} sport={r.sport} score={r.score} kuleuvenref={ref} />
 							})}
 					</Accordion>
 				</Col>
