@@ -3,43 +3,39 @@ import data from '../../../data/sports'
 import {useEffect, useState, useContext} from "react";
 import {back_end} from "../../../utils/auth";
 import {fetchPreferences} from "../../../utils/firestore";
-import {UserContext} from "../../../contexts";
+import {UIContext, UserContext} from "../../../contexts";
 import Accordion from 'react-bootstrap/Accordion';
 import {Container, Row, Col} from "react-bootstrap";
 import PreferencesOverview from "../preferences/PreferencesOverview";
 import BarChart from "./BarChart"
 import {commonTags} from "../../../utils/sportsUtils"
 import SportsCoach from "./SportsCoach";
-import {Link} from "react-router-dom";
 
 function Recommendations() {
+    const uiContext = useContext(UIContext)
     const user = useContext(UserContext)
+    const [preferences, setPreferences] = useState([])
     const [topTags, setTopTags] = useState([])
     const [recommendations, setRecommendations] = useState([])
     const [surveyVisible, setSurveyVisible] = useState(false)
-	const surveyLink1 = 'https://forms.office.com/e/gm5WmeA1JP'
-	const surveyLink2 = 'https://forms.office.com/e/hDDKHBwV8r'
+    const surveyLink1 = 'https://forms.office.com/e/gm5WmeA1JP'
+    const surveyLink2 = 'https://forms.office.com/e/hDDKHBwV8r'
 
-	// Show survey after 20 seconds
+    // Show survey after 30 seconds
     setTimeout(() => {
         setSurveyVisible(true);
-    }, 20000);
+    }, 30_000);
 
     useEffect(() => async () => {
-        console.log("fetching...")
-        const preferences = (await fetchPreferences(user.user.email)).data().sports
-        console.log("preferences:", preferences)
+        const prefs = (await fetchPreferences(user.user.email)).data().sports
+        setPreferences(prefs)
 
-        await fetch(`${back_end}/recommendations/?sports=${preferences.join(',')}`)
+        await fetch(`${back_end}/recommendations/?sports=${prefs.join(',')}`)
             .then(resp => resp.json())
             .then(data => {
-                console.log("data: ", data)
-                const sortedRecommendations = data.sort((a, b) => a.score < b.score)
+                const sortedRecommendations = data.sort((a, b) => b.score - a.score)
                 setRecommendations(sortedRecommendations)
-
-                const cTags = commonTags(sortedRecommendations.map(r => r.sport))
-                setTopTags(Object.entries(cTags).sort((a, b) => a[1] < b[1]).slice(0, 10))
-                console.log("Common tags:", topTags)
+                setTopTags(getTopTags(prefs, data.slice(0, 1).map(el => el.sport)))
             })
 
     }, [])
@@ -49,25 +45,42 @@ function Recommendations() {
             <Row className={!surveyVisible ? 'pt-4' : 'd-none'}>
                 <Col>
                     <h3>Recommendations</h3>
-                    <Accordion defaultActiveKey={0}>
+                    <Accordion defaultActiveKey={0} onClick={(e) => {
+                        const toptags = getTopTags(preferences,[e.target.innerText])
+                        setTopTags(toptags)
+                    }}>
                         {recommendations
                             .map((r, i) => {
-                                //console.log("Recommendation: ", r)
                                 const ref = data.find(e => e.id === r.sport).kuleuvenref;
-                                //console.log("i: ", i)
                                 return < Recommendation key={i} eventKey={i} sport={r.sport} score={r.score}
                                                         location={"Sporthal"} time={"Friday 19h"} kuleuvenref={ref}/>
                             })}
                     </Accordion>
                 </Col>
                 <Col>
-                    {false ? <StatisticsUI topTags={topTags}/> : <SportsCoachUI topTags={topTags}/>}
+                    {uiContext === "statistics" ? <StatisticsUI topTags={topTags}/> :
+                        <SportsCoachUI topTags={topTags}/>}
                 </Col>
             </Row>
-			<a className={!surveyVisible ? 'd-none' : ''} href={surveyLink1}>Click to fill in the survey.</a>
+            <div className={!surveyVisible ? 'd-none' : ''}>
+                <h3 className="display-4">
+                    Please fill in the <a href={uiContext === "statistics" ? surveyLink1 : surveyLink2}
+                                          target="blank">Survey</a>
+                </h3>
+            </div>
         </Container>
 
     )
+
+    function getTopTags(preferences, selectedSports){
+        const cTagsPreferences = commonTags(preferences)
+        const cTagsRecommendation = commonTags(selectedSports)
+        const cTags = []
+        Object.entries(cTagsRecommendation).forEach(t =>
+            cTags.push(Object.entries(cTagsPreferences).find(pt => pt[0] === t[0]))
+        )
+        return cTags.sort((a, b) => b[1] - a[1]).slice(0, 10).filter(i => i)
+    }
 }
 
 const StatisticsUI = ({topTags}) =>

@@ -10,7 +10,7 @@ const SportsCoach = ({ text, setText }) => {
     // recursive to avoid using await, by doing it like this,
     // every displayChar is executed after each other
     const showVisibleText = () => {
-        console.log("text:", text)
+        //console.log("text:", text)
         setTimeout(() => { displayChar(0) }, timeout)
     }
     const displayChar = (i) => {
@@ -18,8 +18,8 @@ const SportsCoach = ({ text, setText }) => {
         if (i === 0 && stop) { stop = false }
         if (i !== 0 && stop) { stop = false; return }
 
-        setVisibleText(text.slice(0, i).join(" "))
-        console.log("visible words set to:", text.slice(0, i).join(" "))
+        text !== "" && setVisibleText(text.slice(0, i).join(" "))
+        //console.log("visible words set to:", text.slice(0, i).join(" "))
         setTimeout(() => displayChar(i + 1), timeout)
     }
 

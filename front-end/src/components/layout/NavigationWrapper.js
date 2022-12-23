@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, UNSAFE_LocationContext, useNavigate, useSearchParams } from 'react-router-dom';
 import Login from "../pages/Login"
 import ChangePreferences from "../pages/preferences/ChangePreferences"
 import Recommendations from "../pages/recommendations/Recommendations"
@@ -8,16 +8,18 @@ import SelectPreferences from "../pages/preferences/SelectPreferences"
 import '../../style/App.scss';
 import NavBar from './NavBar'
 import { NotificationContainer } from "react-notifications";
-import { UserContext } from "../../contexts";
+import { UserContext, UIContext } from "../../contexts";
 import { notify, back_end } from "../../utils/auth";
 import Spinner from 'react-bootstrap/Spinner';
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 
 const Component = () => {
 	const navigate = useNavigate()
 	const [user, updateUser] = useState();
 	const [loaded, setLoaded] = useState(false)
+	const [queryParams, setQueryParams] = useSearchParams()
+	const [ui, setUI] = useState(null)
 
 	const setUser = (usr) => {
 		updateUser(usr)
@@ -25,6 +27,13 @@ const Component = () => {
 	}
 
 	useEffect(() => {
+		// only set at the very first render
+		if (ui === null) {
+			if (queryParams.get("ui") === null) setUI("statistics")
+			else setUI(queryParams.get("ui"))
+		}
+
+		console.log("query params NavWrapper:", queryParams.get("ui"))
 		const usr = JSON.parse(localStorage.getItem("sportify-user"))
 		if (usr !== null && Object.entries(usr).length !== 0) {
 			if (usr.user.expirationTime < Date.now()) {
@@ -43,30 +52,31 @@ const Component = () => {
 
 	return (
 		<UserContext.Provider value={user}>
-			{/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
-			<NotificationContainer />
-			<NavBar updateUser={updateUser} />
-			{loaded ?
-				<Routes>
-					<Route path='/' element={<Navigate to="/login" />} />
-					<Route path="/login" element={<Login setUser={setUser} />} />
-					{user !== null &&
-						<>
-							<Route path="/select-preferences" element={<SelectPreferences />} />
-							<Route path="/change-preferences" element={<ChangePreferences />} />
-							<Route path="/recommendations" element={<Recommendations />} />
-							<Route path="/results" element={<Results />} />
-						</>
-					}
-				</Routes>
-				:
-				<Container className="text-center">
-					<Spinner animation="border" role="status">
-						<span className="visually-hidden">Loading...</span>
-					</Spinner>
-				</Container>
+			<UIContext.Provider value={ui}>
+				{/* Let's only render when useEffect has updated the user object to prevent 'user == null' chaos in the children */}
+				<NotificationContainer />
+				<NavBar updateUser={updateUser} />
+				{loaded ?
+					<Routes>
+						<Route path='/' element={<Navigate to="/login" />} />
+						<Route path="/login" element={<Login setUser={setUser} />} />
+						{user !== null && ui !== null &&
+							<>
+								<Route path="/select-preferences" element={<SelectPreferences />} />
+								<Route path="/change-preferences" element={<ChangePreferences />} />
+								<Route path="/recommendations" element={<Recommendations />} />
+								<Route path="/results" element={<Results />} />
+							</>
+						}
+					</Routes>
+					:
+					<Container className="text-center">
+						<Spinner animation="border" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					</Container>
 
-			}
+				}</UIContext.Provider>
 		</UserContext.Provider>
 	)
 

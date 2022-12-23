@@ -11,8 +11,6 @@ function NavBar({ updateUser }) {
 	const user = useContext(UserContext)
 
 	useEffect(() => {
-		////// HIER: als ge wilt uitloggen wordt de login component al 
-		// gerenderd vóór de setUser(null) in signOut is uitgevoerd, wat er voor zorgt dat die nog snel die navigate("/") gaat doen
 		console.log("Navbar render, state user:", user)
 		if (user === null || user === undefined) navigate("/")
 	}, [user])

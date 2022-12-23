@@ -50,7 +50,7 @@ function App({ tags }) {
 				}
 			],
 		})
-	}, [])
+	}, [tags])
 
 	return data !== null && <Bar options={options} data={data} />;
 }
