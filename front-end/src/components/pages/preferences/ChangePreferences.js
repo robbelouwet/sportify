@@ -1,16 +1,16 @@
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faArrowRight, faTrash, faPlus} from '@fortawesome/free-solid-svg-icons'
-import {Form, ListGroup, Container, Col, Row} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Form, ListGroup, Container, Col, Row } from 'react-bootstrap'
 import sports from '../../../data/sports'
-import {useContext, useEffect, useState} from 'react'
-import {Button} from 'react-bootstrap'
+import { useContext, useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
 import {
     addPreferences,
     removePreference,
     fetchPreferences,
 } from '../../../utils/firestore'
-import {UserContext} from '../../../contexts'
-import {useNavigate} from 'react-router-dom'
+import { UserContext } from '../../../contexts'
+import { useNavigate } from 'react-router-dom'
 
 function ChangePreferences() {
     const navigate = useNavigate()
@@ -60,10 +60,10 @@ function ChangePreferences() {
                 <Col className="">
                     <ListGroup>
                         {preferences.map(e =>
-                            <ListGroup.Item key={e}>
+                            <ListGroup.Item key={e} onClick={() => rmPreference(e)}>
                                 <FontAwesomeIcon className="text-danger" icon={faTrash}
-                                                 onClick={() => rmPreference(e)}/>
-                                <div className="d-inline" style={{marginLeft: '20px'}}>
+                                />
+                                <div className="d-inline" style={{ marginLeft: '20px' }}>
                                     {e}
                                 </div>
                             </ListGroup.Item>)}
@@ -82,22 +82,22 @@ function ChangePreferences() {
                 />
                 <div>
                     <Button
-                        style={{display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center', flexFlow: 'row nowrap', minHeight: '50px'}}
+                        style={{ display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center', flexFlow: 'row nowrap', minHeight: '50px' }}
                         onClick={() => navigate('/recommendations')}
                         variant="success"
                     >
-                        <div className="d-inline" style={{marginRight: '10px'}}>Save</div>
-                        <FontAwesomeIcon icon={faArrowRight}/>
+                        <div className="d-inline" style={{ marginRight: '10px' }}>Save</div>
+                        <FontAwesomeIcon icon={faArrowRight} />
                     </Button>
                 </div>
             </Form>
             <ListGroup>
                 {filteredSports
                     .map(s =>
-                        <ListGroup.Item key={s}>
+                        <ListGroup.Item key={s} onClick={() => addPreference(s)}>
                             <FontAwesomeIcon icon={faPlus}
-                                             onClick={() => addPreference(s)}/>
-                            <div className="d-inline" style={{marginLeft: '20px'}}>
+                            />
+                            <div className="d-inline" style={{ marginLeft: '20px' }}>
                                 {s}
                             </div>
                         </ListGroup.Item>

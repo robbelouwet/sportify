@@ -29,7 +29,7 @@ const Component = () => {
 	useEffect(() => {
 		// only set at the very first render
 		if (ui === null) {
-			if (queryParams.get("ui") === null) setUI("statistics")
+			if (queryParams.get("ui") === null) setUI("sportscoach")
 			else setUI(queryParams.get("ui"))
 		}
 
