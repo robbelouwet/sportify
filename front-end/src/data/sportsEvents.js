@@ -56,7 +56,6 @@ export default {
     Baseball: [['Sunday 16:00 - 18:00', 'Gebouw De Nayer - Grote Zaal']],
     Basketball: [
         ['Monday 19:00 - 21:00', 'Topsporthal (TSH) Unit 3 & 4'],
-        ['Monday 19:00 - 21:00', 'Topsporthal (TSH) Unit 3 & 4'],
         ['Wednesday 18:00 - 21:00', 'Topsporthal (TSH) Unit 4']
     ],
     'Beach Balance': [
@@ -175,7 +174,6 @@ export default {
     Football: [['Wednesday 20:00 - 22:00', 'Artificial grass field 1 (KG1)']],
     Futsal: [
         ['Tuesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
-        ['Tuesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
         ['Wednesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
         ['Thursday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3']
     ],
@@ -204,10 +202,6 @@ export default {
         [
             'Wednesday 21:30 - 23:00',
             'Gebouw De Nayer (GDN) Grote zaal (A+B+C)'
-        ],
-        [
-            'Wednesday 21:30 - 23:00',
-            'Gebouw De Nayer (GDN) Grote zaal (A+B+C)'
         ]
     ],
     'Heels Body Expressive': [['Monday 19:00 - 20:00', 'Gymnasium (GYMN) Grote zaal']],
@@ -219,7 +213,6 @@ export default {
     'Hip Hop Girly': [['Monday 20:00 - 21:00', 'Campus UCLL/HHH - Spiegelzaal']],
     Hockey: [
         ['Tuesday 20:00 - 21:30', 'Artificial grass field 1 (KG1)'],
-        ['Tuesday 20:00 - 21:30', 'Artificial grass field 1 (KG1)'],
         ['Thursday 20:00 - 21:30', 'Artificial grass field 1 (KG1)']
     ],
     'Indoor cycling': [
@@ -230,7 +223,6 @@ export default {
         ['Thursday 20:00 - 21:00', 'Sporthal UCLL - Unit 6 (floor -1)']
     ],
     'Indoor football': [
-        ['Tuesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
         ['Tuesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
         ['Wednesday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3'],
         ['Thursday 21:00 - 23:00', 'Topsportshal (TSH) Unit 1,2 & 3']
@@ -252,7 +244,6 @@ export default {
     Kayak: [['Wednesday 20:30 - 22:00', 'Swimming pool KU Leuven']],
     Korfball: [
         ['Monday 21:00 - 22:00', 'Topsporthal (TSH) Unit 1'],
-        ['Monday 22:00 - 23:00', 'Topsporthal (TSH) Unit 1'],
         ['Monday 22:00 - 23:00', 'Topsporthal (TSH) Unit 1']
     ],
     'Kung Fu': [
@@ -400,17 +391,13 @@ export default {
         ['Tuesday 18:00 - 20:00', 'Swimming pool'],
         ['Thursday 18:00 - 20:00', 'Swimming pool']
     ],
-    'Ultimate Frisbee': [
-        ['Thursday 19:00 - 21:00', 'Artificial grass field 2 (KG2)'],
-        ['Thursday 19:00 - 21:00', 'Artificial grass field 2 (KG2)']
-    ],
+    'Ultimate Frisbee': [['Thursday 19:00 - 21:00', 'Artificial grass field 2 (KG2)']],
     Volleyball: [
         ['Monday 21:00 - 23:00', 'Topsporthal (TSH) Units 3 & 4'],
         ['Wednesday 19:00 - 21:00', 'Topsporthal (TSH) Units 1,2 & 3']
     ],
     Waterpolo: [
         ['Wednesday 18:00 - 19:00', 'Swimming pool (Z)'],
-        ['Wednesday 19:00 - 20:30', 'Swimming pool (Z)'],
         ['Wednesday 19:00 - 20:30', 'Swimming pool (Z)']
     ],
     'X-Fit': [['Wednesday 21:00 - 22:30', 'Indoor Atletiekhal (IAH)']],
