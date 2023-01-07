@@ -10,6 +10,8 @@ import PreferencesOverview from "../preferences/PreferencesOverview";
 import BarChart from "./BarChart"
 import { commonTags } from "../../../utils/sportsUtils"
 import SportsCoach from "./SportsCoach";
+import { faSpaghettiMonsterFlying, faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const surveyLink1 = 'https://forms.office.com/e/gm5WmeA1JP'
 const surveyLink2 = 'https://forms.office.com/e/hDDKHBwV8r'
@@ -26,7 +28,9 @@ function Recommendations() {
     // Show survey after 30 seconds
     setTimeout(() => {
         setSurveyVisible(true);
-    }, 30_00000);
+    }, 60_000);
+
+
 
     useEffect(() => { console.log("recommendations @ useEffect", recommendations); setSelectedRecommendation(recommendations[0]) }, [recommendations])
 
@@ -68,7 +72,7 @@ function Recommendations() {
             </Row>
             <div className={!surveyVisible ? 'd-none' : ''}>
                 <h3 className="display-4">
-                    Please fill in the <a href={uiContext === "statistics" ? surveyLink1 : surveyLink2}
+                    If you participated in both experiments (2 websites), please fill in the <a href={uiContext === "statistics" ? surveyLink1 : surveyLink2}
                         target="blank">Survey</a>
                 </h3>
             </div>
@@ -97,7 +101,7 @@ const StatisticsUI = ({ topTags }) =>
     </>
 
 const SportsCoachUI = ({ recommendedSport, preferences, topTags }) => {
-    const [text, setText] = useState("")
+    const [text, setText] = useState([])
 
     useEffect(() => {
         console.log("sport @ useEffect SCUI:", recommendedSport)
@@ -115,8 +119,8 @@ const SportsCoachUI = ({ recommendedSport, preferences, topTags }) => {
     }, [recommendedSport, preferences, topTags])
 
     useEffect(() => {
-        console.log("Setting text:", text)
-        text !== "" && text !== null && setText(text.split(" "))
+        console.log("##################################################Setting text:", text)
+        //text !== "" && text !== undefined && text !== null && setText(text.split(" "))
     }, [])
 
     return <SportsCoach topTags={topTags} text={text} setText={() => setText} />

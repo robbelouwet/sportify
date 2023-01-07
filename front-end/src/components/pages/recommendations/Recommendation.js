@@ -18,10 +18,8 @@ function Recommendation({ eventKey, sport, score, kuleuvenref }) {
 
 				<h6>{Math.round(score)}% match</h6>
 				<ul>
-					{events.map(([time, loc]) => <li>{time} {loc}</li>)}
+					{events.map(([time, loc]) => <li key={`${time}${loc}`}>{time} {loc}</li>)}
 				</ul>
-				<br />
-				<a href={kuleuvenref}>Check it out!<FontAwesomeIcon style={{ marginLeft: "6px" }} icon={faArrowUpRightFromSquare} /></a>
 			</Accordion.Body>
 		</Accordion.Item>
 	);
