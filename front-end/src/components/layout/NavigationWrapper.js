@@ -23,7 +23,7 @@ const Component = () => {
 
 	const setUser = (usr) => {
 		updateUser(usr)
-		localStorage.setItem("sportify-user", JSON.stringify(usr))
+		//localStorage.setItem("sportify-user", JSON.stringify(usr))
 	}
 
 	useEffect(() => {
@@ -33,7 +33,7 @@ const Component = () => {
 			else setUI(queryParams.get("ui"))
 		}
 
-		console.log("query params NavWrapper:", queryParams.get("ui"))
+		/*console.log("query params NavWrapper:", queryParams.get("ui"))
 		const usr = JSON.parse(localStorage.getItem("sportify-user"))
 		if (usr !== null && Object.entries(usr).length !== 0) {
 			if (usr.user.expirationTime < Date.now()) {
@@ -44,7 +44,8 @@ const Component = () => {
 				console.log("retrieved stored user:", usr)
 				updateUser(usr)
 			}
-		} else console.log("didn't find stored user!")
+		} else console.log("didn't find stored user!")*/
+
 		fetch(`${back_end}/health-check`)
 			.then(data => data.json())
 			.then(_ => setLoaded(true))
@@ -74,6 +75,7 @@ const Component = () => {
 						<Spinner animation="border" role="status">
 							<span className="visually-hidden">Loading...</span>
 						</Spinner>
+						<div className="text-muted" style={{ fontSize: "13px" }}>This might take about 10 seconds.</div>
 					</Container>
 
 				}</UIContext.Provider>
