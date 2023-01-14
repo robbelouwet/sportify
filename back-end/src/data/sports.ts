@@ -215,7 +215,7 @@ export default [
     kuleuvenref: "https://www.kuleuven.be/sport/eng/sportsoffer/sports/combatsports/judo"
   },
   {
-    id: "JuJitsu",
+    id: "Jiu-Jitsu",
     content: "beginner intermediate advance weight class jujitsu belt mouthguardcombatsport flexibility cardio contact",
     kuleuvenref: "https://www.kuleuven.be/sport/eng/sportsoffer/sports/combatsports/jujitsu"
   },
