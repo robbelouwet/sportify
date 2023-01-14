@@ -72,8 +72,8 @@ function Recommendations() {
 			</Row>
 			<div className={!surveyVisible ? 'd-none' : ''}>
 				<h3 className="display-4">
-					If you participated in both experiments (2 websites), please fill in the <a href={uiContext === "statistics" ? statisticsLink : coachLink}
-						target="blank">Survey</a>
+					Thank you for participating, please fill in the <a href={uiContext === "statistics" ? statisticsLink : coachLink}
+						target="blank">survey</a>.
 				</h3>
 			</div>
 		</Container>
