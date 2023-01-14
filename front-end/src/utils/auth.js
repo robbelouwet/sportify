@@ -14,22 +14,22 @@ export const login = async (email, pwd, data, navigate) => {
 	try {
 		user = await signInWithEmailAndPassword(getAuth(), email, pwd)
 		notify("success", "Success!", "You are successfully logged in!")
-		if (data.exists() && data.data().sports !== null) {
-			navigate("/recommendations", { state: { preferences: data.data().sports } })
-		} else {
+		//if (data.exists() && data.data().sports !== null) {
+		//	navigate("/recommendations", { state: { preferences: data.data().sports } })
+		//} else {
 			navigate("/select-preferences")
-		}
+		//}
 	} catch (error) {
 		console.log("error.code: ", error)
 		if (error.code === "auth/user-not-found") {
 			try {
 				user = await createUserWithEmailAndPassword(getAuth(), email, pwd);
 				notify('info', "User doesn't exist!", "Creating new user...")
-				if (data.exists() && data.data().sports !== null) {
-					navigate("/recommendations", { state: { preferences: data.data().sports } })
-				} else {
+				//if (data.exists() && data.data().sports !== null) {
+				//	navigate("/recommendations", { state: { preferences: data.data().sports } })
+				//} else {
 					navigate("/select-preferences")
-				}
+				//}
 			} catch (err2) {
 				notify("error", "Error", err2.code)
 			}
