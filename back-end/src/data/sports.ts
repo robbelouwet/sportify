@@ -5,7 +5,7 @@ export default [
     kuleuvenref: "https://www.kuleuven.be/sport/eng/sportsoffer/sports/fitness-group-training/aerobic"
   },
   {
-    id: "Antwerp  0 Miles",
+    id: "Antwerp 10 Miles",
     content: "miles antwerp belgium road pavement individual team child friendly adult seniors beginner intermediate advance mens womens high-intensity endurance run shoe hydration pack chip time manual time flat hillycardio endurance hiit individual",
     kuleuvenref: "https://www.kuleuven.be/sport/eng/sportsoffer/sports/individualsports/antwerp 0miles"
   },
