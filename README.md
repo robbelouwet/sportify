@@ -3,9 +3,9 @@
 Front-end (2 UI's, ABBA testing):
 
 - Statistics UI (
-  A): [picasso.experiments.cs.kuleuven.be:3470?ui=statistics](picasso.experiments.cs.kuleuven.be:3470?ui=statistics)
+  A): [picasso.experiments.cs.kuleuven.be:3470?ui=statistics](http://picasso.experiments.cs.kuleuven.be:3470?ui=statistics)
 - Sports coach UI (
-  B): [picasso.experiments.cs.kuleuven.be:3470?ui=sportscoach](picasso.experiments.cs.kuleuven.be:3470?ui=sportscoach)
+  B): [picasso.experiments.cs.kuleuven.be:3470?ui=sportscoach](http://picasso.experiments.cs.kuleuven.be:3470?ui=sportscoach)
 
 Back-end:
 [https://sportify-hci.ew.r.appspot.com/](https://sportify-hci.ew.r.appspot.com/). You can test an
