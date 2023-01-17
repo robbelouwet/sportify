@@ -1,4 +1,4 @@
-## Links
+## Deployed links
 
 Front-end (2 UI's, ABBA testing):
 
@@ -26,4 +26,11 @@ similarity factor between [tags](back-end/src/data/sports.ts) of the chosen 'pre
 and returns the top 5.
 
 Both can be run locally if you wish, by navigating to the relevant subdirectory (front-end or back-end) and
-executing `npm start` in both directories. Although both are deployed so this isn't necessary.
+executing `npm start` in both directories, then uncomment and change the `back_end` url in the [auth.js](front-end/src/utils/auth.js) so the front end will point to the local back end instead of the deployed one. Although both are deployed so this isn't necessary.
+
+## The website
+the 2 UI's are basically the same, the only difference is that the recommendations page renders a different component. When logging in, just specify a valid KU Leuven email adress:
+- firstname.lastname@student.kuleuven.be
+- rxxxxxx@kuleuven.be
+
+Then, enter a random password. If the user doesn't exist, it is created and logged in.
